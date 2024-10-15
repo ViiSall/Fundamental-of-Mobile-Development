@@ -1,26 +1,45 @@
-class CheckCol {
-  String isBaland(String S) {
-    final Map<String, String> Check = {'[': ']', '(': ')', '{': '}'};
-    List<String> Store = [];
+enum Token {
+  braces(start: "[", end: "]"),
+  curlyBraces(start: "{", end: "}"),
+  parenthesis(start: "(", end: ")");
 
-    for (int i = 0; i < S.length; i++) {
-      String Char = S[i];
+  const Token({required this.start, required this.end});
 
-      if (Check.containsKey(Char)) {
-        Store.add(Char);
-      } else if (Check.containsValue(Char)) {
-        if (Store.isEmpty || Check[Store.removeLast()] != Char) {
-          return "not baland";
-        }
-      }
-    }
+  final String start;
+  final String end;
 
-    return Store.isEmpty ? "is Baland" : "is not Baland";
+  static bool isStartToken(String char) {
+    return values.any((token) => token.start == char);
+  }
+
+  static bool isEndToken(String char) {
+    return values.any((token) => token.end == char);
+  }
+
+  static String getStartFor(String char) {
+    return values.firstWhere((token) => token.end == char).start;
   }
 }
 
+bool parseTokens(String text) {
+  List<String> stack = [];
+  for (String char in text.split("")) {
+    if (Token.isStartToken(char)) {
+      stack.add(char);
+    } else if (Token.isEndToken(char)) {
+      String expectedStartToken = Token.getStartFor(char);  					// Expected start token...
+      if (!stack.isEmpty && stack[stack.length - 1] == expectedStartToken) {    // Check the expected start token is in the stack
+        stack.removeLast();   													// If yes, remove it form the stack
+      } else {
+        return false;
+      }
+    }
+  }
+  return true;
+}
+
 void main() {
-  var hi = CheckCol();
-  var name = hi.isBaland("[{(visal})]");
-  print(name); // not baland
+  String text = "[{(text))}]";
+  bool isBalanced = parseTokens(text);
+  print(isBalanced? "Balanced":"Not Balanced");
 }
