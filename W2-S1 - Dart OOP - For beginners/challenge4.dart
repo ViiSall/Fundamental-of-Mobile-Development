@@ -15,9 +15,11 @@ class Distance {
 }
 
 void main() {
-  Distance d1 = new Distance(1000); // 100 meters
+  Distance d1 = new Distance(10); // 10 meters
 
   Distance d2 = new Distance.centimeter(2000);
+
+  // Distance d3 = new Distance.kilometer(1);
 
   Distance newDistance = d1 + d2;
   print('D1_Meters: ${d1.distanceAsMeters}m');
@@ -28,7 +30,11 @@ void main() {
   print('D2_Cms: ${d2.distanceAsCms}cm');
   print('D2_Kms: ${d2.distanceAsKms}km\n');
 
+  // print('D3 m : ${d3.distanceAsMeters}m');
+  // print('D3 cm : ${d3.distanceAsCms}cm');
+  // print('D3 km : ${d3.distanceAsKms}km');
+
   print("NewDistanceAsMeters: ${newDistance.distanceAsMeters}m");
-  print("NewDistanceAsCms: ${newDistance.distanceAsCms}m");
-  print("NewDistanceAsKms: ${newDistance.distanceAsKms}m");
+  print("NewDistanceAsCms: ${newDistance.distanceAsCms}cm");
+  print("NewDistanceAsKms: ${newDistance.distanceAsKms}km");
 }
