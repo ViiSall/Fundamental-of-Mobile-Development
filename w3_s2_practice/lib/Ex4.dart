@@ -5,12 +5,12 @@ class CustomCard extends StatelessWidget {
     super.key,
     required this.text,
     required this.color,
-    this.mixColor,
+    this.endColor,
   });
 
   final String text;
   final Color color;
-  final Color? mixColor;
+  final Color? endColor;
 
   @override
   Widget build(BuildContext context) {
@@ -20,7 +20,7 @@ class CustomCard extends StatelessWidget {
       margin: const EdgeInsets.symmetric(vertical: 20),
       decoration: BoxDecoration(
         gradient: LinearGradient(
-          colors: [color, mixColor ?? color],
+          colors: [color, endColor ?? color],
           begin: Alignment.topLeft,
           end: Alignment.bottomRight,
         ),
@@ -49,8 +49,7 @@ class Ex4 extends StatelessWidget {
           title: Text('This is my Ex4...'),
         ),
         body: Center(
-          child: Container(
-            padding: EdgeInsets.all(30),
+          child: Card(
             margin: EdgeInsets.symmetric(vertical: 24),
             child: Column(
               children: [
@@ -65,7 +64,7 @@ class Ex4 extends StatelessWidget {
                 CustomCard(
                   text: 'FLUTTER',
                   color: Colors.blue[300]!,
-                  mixColor: Colors.blue[900]!,
+                  endColor: Colors.blue[900]!,
                 ),
               ],
             ),

@@ -21,7 +21,7 @@ class MyApp extends StatelessWidget {
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
         useMaterial3: true,
       ),
-      home: const Ex1(), // Ex1, Ex2, Ex3, Ex4
+      home: Ex4(), // Ex1, Ex2, Ex3, Ex4
     );
   }
 }
