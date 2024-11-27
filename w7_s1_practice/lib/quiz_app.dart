@@ -4,7 +4,6 @@ import 'package:w7_s1_practice/screens/result_screen.dart';
 import 'package:w7_s1_practice/screens/welcome_screen.dart';
 import 'model/quiz.dart';
 
-// QuizState Enum
 enum QuizState { notStarted, started, finished }
 
 class QuizApp extends StatefulWidget {
@@ -21,7 +20,6 @@ class _QuizAppState extends State<QuizApp> {
   int currentQuestionIndex = 0;
   Submission submission = Submission([]);
 
-  // Start quiz
   void startQuiz() {
     setState(() {
       quizState = QuizState.started;
@@ -29,7 +27,6 @@ class _QuizAppState extends State<QuizApp> {
     });
   }
 
-  // Handle answer selection
   void answerQuestion(String selectedAnswer) {
     setState(() {
       submission.selectedAnswers.add(selectedAnswer);
@@ -41,8 +38,6 @@ class _QuizAppState extends State<QuizApp> {
     });
   }
 
-
-  // Restart quiz
   void restartQuiz() {
     setState(() {
       quizState = QuizState.notStarted;
@@ -50,7 +45,6 @@ class _QuizAppState extends State<QuizApp> {
       submission = Submission([]);
     });
   }
-
 
   @override
   Widget build(BuildContext context) {
