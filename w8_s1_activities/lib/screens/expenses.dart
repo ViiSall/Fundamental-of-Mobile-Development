@@ -1,95 +1,99 @@
 import 'package:flutter/material.dart';
-import 'package:w8_s1_activities/models/expense.dart';
-import 'package:intl/intl.dart';
 
-class ExpensesScreen extends StatefulWidget {
-  const ExpensesScreen({super.key});
+import '../models/expense.dart';
+import 'expenses_form.dart';
+import 'expenses_list.dart';
+
+class Expenses extends StatefulWidget {
+  const Expenses({super.key});
 
   @override
-  State<ExpensesScreen> createState() => _ExpensesState();
+  State<Expenses> createState() => _ExpensesState();
 }
 
-class _ExpensesState extends State<ExpensesScreen> {
-
-  List<Expense> expenses = [
-    Expense(title: 'Ronan The best Teacher', amount: 150000000, date: DateTime.now()),
-    Expense(title: 'Ronan The best Teacher', amount: 150000000, date: DateTime.now()),
-
+class _ExpensesState extends State<Expenses> {
+  final List<Expense> _registeredExpenses = [
+    Expense(
+      title: 'Flutter Course',
+      amount: 19.99,
+      date: DateTime.now(),
+      category: Category.work,
+    ),
+    Expense(
+      title: 'Cinema',
+      amount: 15.69,
+      date: DateTime.now(),
+      category: Category.leisure,
+    ),
   ];
 
-  void onAdd() {
+  void _openAddExpenseOverlay(){
     showModalBottomSheet(
+      useSafeArea: true,
       isScrollControlled: true,
-        context: context,
-        builder: (BuildContext context) {
-          return Container(
+      context: context,
+      builder: (ctx) => NewExpense(onAddExpense: _addExpense,),
+    );
+  }
 
-          );
-        }
+  void _addExpense(Expense expense) {
+    setState(() {
+      _registeredExpenses.add(expense);
+    });
+  }
+
+  void _removeExpense(Expense expense) {
+    final expenseIndex = _registeredExpenses.indexOf(expense);
+    setState(() {
+      _registeredExpenses.remove(expense);
+    });
+    ScaffoldMessenger.of(context).clearSnackBars();
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        duration: const Duration(seconds: 3),
+        content: Text('Expense deleted.'),
+        action: SnackBarAction(
+          label: 'Undo',
+          onPressed: () {
+            setState(() {
+              _registeredExpenses.insert(expenseIndex, expense);
+            });
+          },
+        ),
+      ),
     );
   }
 
   @override
   Widget build(BuildContext context) {
+    final width = MediaQuery.of(context).size.width;
+
+    Widget mainContent = const Center(
+      child: Text('No expenses found. Start adding some!'),
+    );
+    if(_registeredExpenses.isNotEmpty) {
+      mainContent = ExpensesList(
+        expenses: _registeredExpenses,
+        onRemoveExpense: _removeExpense,
+      );
+    }
+
     return Scaffold(
-      backgroundColor: Colors.orange,
       appBar: AppBar(
-        title: Text('Ronan- The best Expenses App'),
+        title: const Text('Ronan best Expense Tracker'),
         actions: [
           IconButton(
-            onPressed: onAdd,
-            icon: Icon(Icons.add)),
+            onPressed: _openAddExpenseOverlay,
+            icon: const Icon(Icons.add),
+          ),
         ],
       ),
-      body: ListView.builder(
-        itemCount: expenses.length,
-        itemBuilder: (context, index) {
-          final expense = expenses[index];
-          return Card(
-            margin: const EdgeInsets.symmetric(vertical: 12, horizontal: 8),
-            color: Colors.white,
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(12),
-            ),
-            child: Padding(
-              padding: const EdgeInsets.all(12),
-              child: Row(
-                children: [
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        expense.title,
-                        style: const TextStyle(
-                          fontSize: 18,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                      Text(
-                        '\$${expense.amount.toStringAsFixed(2)}',
-                        style: const TextStyle(
-                          fontSize: 16,
-                          color: Colors.black54,
-                        ),
-                      ),
-                    ],
-                  ),
-                  const Spacer(),
-                  Row(
-                    children: [
-                      const Icon(Icons.accessibility, size: 24, color: Colors.black54), // Replace with your icon
-                      const SizedBox(width: 8),
-                      Text(
-                        DateFormat('dd/MM/yyyy').format(expense.date),
-                        style: const TextStyle(fontSize: 16),
-                      ),
-                    ],
-                  ),
-                ],
-              ),
-            ),
-          );
-        },
+      body: Column(
+        children: [
+          Expanded(
+            child: mainContent,
+          ),
+        ],
       ),
     );
   }
