@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_heatmap_calendar/flutter_heatmap_calendar.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:personal_project/models/goal_model.dart';
 import 'package:personal_project/providers/theme_provider.dart';
 import 'package:personal_project/respositories/days_repository.dart';
@@ -98,13 +99,13 @@ class ProgressScreen extends StatelessWidget {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      const Text(
+                      Text(
                         'Streak',
-                        style: TextStyle(fontSize: 32),
+                        style: GoogleFonts.lato(fontSize: 32),
                       ),
                       Text(
                         '$streak days',
-                        style: const TextStyle(
+                        style: GoogleFonts.lato(
                           fontSize: 32,
                           color: ColorTheme.primary,
                         ),
@@ -116,13 +117,13 @@ class ProgressScreen extends StatelessWidget {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      const Text(
+                      Text(
                         'Best',
-                        style: TextStyle(fontSize: 32),
+                        style: GoogleFonts.lato(fontSize: 32),
                       ),
                       Text(
                         '$bestStreak days',
-                        style: const TextStyle(fontSize: 32),
+                        style: GoogleFonts.lato(fontSize: 32),
                       ),
                     ],
                   ),

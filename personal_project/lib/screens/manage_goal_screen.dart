@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:personal_project/components/custom_text_form_field_widget.dart';
 import 'package:personal_project/components/icons_carousel_widget.dart';
 import 'package:personal_project/components/snackbar_message.dart';
@@ -60,15 +61,15 @@ class ManageGoalScreen extends StatelessWidget {
       appBar: AppBar(
         title: Text(
           goal == null ? 'New Goal' : 'Edit Goal',
-          style: const TextStyle(fontSize: 32),
+          style: GoogleFonts.lato(fontSize: 28),
         ),
         centerTitle: true,
         leadingWidth: 80,
         leading: TextButton(
           onPressed: () => Navigator.pop(context),
-          child: const Text(
+          child: Text(
             'Cancel',
-            style: TextStyle(
+            style: GoogleFonts.lato(
               fontSize: 18,
               color: ColorTheme.secondary,
             ),
@@ -77,9 +78,9 @@ class ManageGoalScreen extends StatelessWidget {
         actions: [
           TextButton(
             onPressed: () => _saveGoal(context, goalsRepository),
-            child: const Text(
+            child: Text(
               'Done',
-              style: TextStyle(
+              style: GoogleFonts.lato(
                 fontSize: 18,
                 color: ColorTheme.secondary,
               ),

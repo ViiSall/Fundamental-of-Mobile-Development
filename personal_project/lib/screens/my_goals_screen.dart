@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:personal_project/components/goal_list_widget.dart';
 import 'package:personal_project/providers/theme_provider.dart';
 import 'package:provider/provider.dart';
@@ -12,9 +13,9 @@ class MyGoalsScreen extends StatelessWidget {
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text(
+        title: Text(
           'My Goals',
-          style: TextStyle(fontSize: 32),
+          style: GoogleFonts.lato(fontSize: 28),
         ),
         centerTitle: true,
       ),

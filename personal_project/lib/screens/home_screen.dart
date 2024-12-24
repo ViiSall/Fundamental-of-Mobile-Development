@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:personal_project/components/goal_list_widget.dart';
 import 'package:personal_project/providers/theme_provider.dart';
 import 'package:personal_project/theme/color_theme.dart';
@@ -13,9 +14,9 @@ class HomeScreen extends StatelessWidget {
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text(
+        title: Text(
           'Today\'s Goals',
-          style: TextStyle(fontSize: 32),
+          style: GoogleFonts.lato(fontSize: 28),
         ),
         centerTitle: true,
         leading: IconButton(

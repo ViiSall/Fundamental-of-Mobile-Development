@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:personal_project/components/snackbar_message.dart';
 import 'package:personal_project/models/goal_model.dart';
 import 'package:personal_project/respositories/days_repository.dart';
@@ -82,7 +83,7 @@ class _GoalTileWidgetState extends State<GoalTileWidget> {
               ),
               title: Text(
                 widget.goal.name,
-                style: TextStyle(
+                style: GoogleFonts.lato(
                   fontSize: widget.goal.name.length <= 20 ? 24 : 20,
                   decoration:
                   isGoalCompleted ? TextDecoration.lineThrough : null,
@@ -147,9 +148,9 @@ class _GoalTileWidgetState extends State<GoalTileWidget> {
           content: const Text('Are you sure about deleting this goal?'),
           actions: [
             TextButton(
-              child: const Text(
+              child: Text(
                 'Yes',
-                style: TextStyle(color: ColorTheme.secondary),
+                style: GoogleFonts.lato(color: ColorTheme.secondary),
               ),
               onPressed: () {
                 daysRepository.removeGoal(widget.goal.id);
@@ -160,9 +161,9 @@ class _GoalTileWidgetState extends State<GoalTileWidget> {
               },
             ),
             TextButton(
-              child: const Text(
+              child: Text(
                 'No',
-                style: TextStyle(color: ColorTheme.secondary),
+                style: GoogleFonts.lato(color: ColorTheme.secondary),
               ),
               onPressed: () {
                 Navigator.pop(context);

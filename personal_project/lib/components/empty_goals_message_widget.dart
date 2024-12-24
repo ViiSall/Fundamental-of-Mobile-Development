@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 class EmptyGoalsMessageWidget extends StatelessWidget {
   const EmptyGoalsMessageWidget({super.key});
@@ -16,14 +17,14 @@ class EmptyGoalsMessageWidget extends StatelessWidget {
               width: 200,
             ),
             const SizedBox(height: 50),
-            const Text(
+            Text(
               'Oooooops!',
-              style: TextStyle(fontSize: 24),
+              style: GoogleFonts.lato(fontSize: 24),
             ),
             const SizedBox(height: 10),
-            const Text(
+            Text(
               'This place looks empty, let\'s create some goals before more ghosts arrive!',
-              style: TextStyle(fontSize: 18),
+              style: GoogleFonts.lato(fontSize: 18),
               textAlign: TextAlign.center,
             ),
           ],
