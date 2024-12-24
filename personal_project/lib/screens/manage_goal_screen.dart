@@ -4,6 +4,7 @@ import 'package:personal_project/components/icons_carousel_widget.dart';
 import 'package:personal_project/components/snackbar_message.dart';
 import 'package:personal_project/components/weekday_buttons_widget.dart';
 import 'package:personal_project/models/goal_model.dart';
+import 'package:personal_project/providers/theme_provider.dart';
 import 'package:personal_project/respositories/goals_repository.dart';
 import 'package:provider/provider.dart';
 
@@ -42,7 +43,8 @@ class ManageGoalScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    GoalsRepository goalsRepository = Provider.of<GoalsRepository>(context);
+    final themeProvider = Provider.of<ThemeProvider>(context);
+    final goalsRepository = Provider.of<GoalsRepository>(context);
 
     if (goal != null) {
       nameFieldController.text = goal!.name;
@@ -114,7 +116,7 @@ class ManageGoalScreen extends StatelessWidget {
           FocusManager.instance.primaryFocus?.unfocus();
         },
       ),
-      backgroundColor: ColorTheme.background,
+      backgroundColor: themeProvider.backgroundColor,
     );
   }
 }

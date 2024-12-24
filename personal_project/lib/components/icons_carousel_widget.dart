@@ -2,8 +2,6 @@ import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:personal_project/theme/color_theme.dart';
 
-
-// ignore: must_be_immutable
 class IconsCarouselWidget extends StatefulWidget {
   IconsCarouselWidget({super.key});
 
@@ -22,8 +20,10 @@ class _IconsCarouselWidgetState extends State<IconsCarouselWidget> {
     Icons.restaurant,
     Icons.music_note,
     Icons.pets,
-    Icons.do_not_disturb_alt,
+    Icons.gamepad_rounded,
   ];
+
+  int _currentIndex = 0;
 
   @override
   Widget build(BuildContext context) {
@@ -31,17 +31,20 @@ class _IconsCarouselWidgetState extends State<IconsCarouselWidget> {
       itemCount: icons.length,
       itemBuilder: (context, index, realIndex) => Icon(
         icons[index],
-        size: 50,
-        color: ColorTheme.primary,
+        size: index == _currentIndex ? 70 : 50,
+        color: index == _currentIndex ? ColorTheme.primary : ColorTheme.secondary,
       ),
       options: CarouselOptions(
         initialPage: icons.indexOf(widget.selectedIcon),
-        height: 50,
+        height: 70,
         viewportFraction: 0.25,
         enlargeCenterPage: true,
         enlargeFactor: 0.25,
         onPageChanged: (index, reason) {
-          widget.selectedIcon = icons[index];
+          setState(() {
+            _currentIndex = index;
+            widget.selectedIcon = icons[index];
+          });
         },
       ),
     );

@@ -5,7 +5,6 @@ import 'package:personal_project/models/goal_model.dart';
 import 'package:personal_project/respositories/goals_repository.dart';
 import 'package:provider/provider.dart';
 
-
 class GoalsListWidget extends StatefulWidget {
   const GoalsListWidget({super.key, required this.weekdayFilter});
 

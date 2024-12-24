@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_heatmap_calendar/flutter_heatmap_calendar.dart';
 import 'package:personal_project/models/goal_model.dart';
+import 'package:personal_project/providers/theme_provider.dart';
 import 'package:personal_project/respositories/days_repository.dart';
 import 'package:provider/provider.dart';
 
@@ -14,6 +15,7 @@ class ProgressScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     DaysRepository daysRepository = Provider.of<DaysRepository>(context);
+    final themeProvider = Provider.of<ThemeProvider>(context);
 
     var days = daysRepository.getDaysByGoalId(goal.id);
     days.sort((dayA, dayB) => dayB.date.compareTo(dayA.date));
@@ -29,7 +31,7 @@ class ProgressScreen extends StatelessWidget {
       for (var date in allDates) {
         if (days.indexWhere((element) => element.date == date) != -1) {
           streak += 1;
-          dates.addAll({date: 1});
+          dates[date] = 1;
         } else {
           if (streak > bestStreak) {
             bestStreak = streak;
@@ -61,11 +63,15 @@ class ProgressScreen extends StatelessWidget {
                 1: ColorTheme.primary,
               },
               datasets: dates,
-              fontSize: 24,
-              monthFontSize: 24,
-              weekFontSize: 18,
-              defaultColor: ColorTheme.faded,
-              textColor: ColorTheme.background,
+              fontSize: 14,
+              monthFontSize: 18,
+              weekFontSize: 12,
+              defaultColor: themeProvider.isDarkMode
+                  ? ColorTheme.faded.withOpacity(0.5)
+                  : ColorTheme.faded,
+              textColor: themeProvider.isDarkMode
+                  ? ColorTheme.lightBackground
+                  : ColorTheme.darkBackground,
               onClick: (date) {
                 if (goal.days[date.weekday - 1] &&
                     date.isBefore(DateTime.now())) {
@@ -105,7 +111,7 @@ class ProgressScreen extends StatelessWidget {
                       ),
                     ],
                   ),
-                  Container(color: ColorTheme.faded, height: 2),
+                  Container(color: themeProvider.isDarkMode ? Colors.grey : ColorTheme.faded, height: 2),
                   const SizedBox(height: 10),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -120,14 +126,14 @@ class ProgressScreen extends StatelessWidget {
                       ),
                     ],
                   ),
-                  Container(color: ColorTheme.faded, height: 2),
+                  Container(color: themeProvider.isDarkMode ? Colors.grey : ColorTheme.faded, height: 2),
                 ],
               ),
             ),
           ],
         ),
       ),
-      backgroundColor: ColorTheme.background,
+      backgroundColor: themeProvider.backgroundColor,
     );
   }
 

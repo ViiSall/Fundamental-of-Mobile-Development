@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:personal_project/theme/color_theme.dart';
 
-
-
 class CustomTextFormFieldWidget extends StatelessWidget {
   const CustomTextFormFieldWidget({
     super.key,
@@ -21,7 +19,7 @@ class CustomTextFormFieldWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return TextFormField(
       controller: controller,
-      style: const TextStyle(fontSize: 18),
+      style: const TextStyle(fontSize: 18,),
       maxLength: maxLength,
       maxLines: maxLines,
       decoration: InputDecoration(

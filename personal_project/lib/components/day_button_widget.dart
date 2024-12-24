@@ -1,9 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:personal_project/theme/color_theme.dart';
 
-
-
-// ignore: must_be_immutable
 class DayButtonWidget extends StatefulWidget {
   DayButtonWidget(this.day, {super.key});
 

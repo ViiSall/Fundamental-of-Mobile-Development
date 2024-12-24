@@ -1,13 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:personal_project/components/goal_list_widget.dart';
-
-import '../theme/color_theme.dart';
+import 'package:personal_project/providers/theme_provider.dart';
+import 'package:provider/provider.dart';
 
 class MyGoalsScreen extends StatelessWidget {
   const MyGoalsScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
+    final themeProvider = Provider.of<ThemeProvider>(context);
+
     return Scaffold(
       appBar: AppBar(
         title: const Text(
@@ -17,7 +19,7 @@ class MyGoalsScreen extends StatelessWidget {
         centerTitle: true,
       ),
       body: const GoalsListWidget(weekdayFilter: false),
-      backgroundColor: ColorTheme.background,
+      backgroundColor: themeProvider.backgroundColor,
     );
   }
 }
