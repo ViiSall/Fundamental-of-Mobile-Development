@@ -4,6 +4,7 @@ import 'package:personal_project/screens/home_screen.dart';
 import 'package:personal_project/screens/manage_goal_screen.dart';
 import 'package:personal_project/screens/my_goals_screen.dart';
 import 'package:personal_project/screens/progress_screen.dart';
+import 'package:personal_project/screens/search_goals_screen.dart';
 
 class RouteManager {
   static Route generateRoute(RouteSettings settings) {
@@ -37,6 +38,14 @@ class RouteManager {
           settings: settings,
           builder: (context) {
             return ProgressScreen(goal: settings.arguments as GoalModel);
+          },
+        );
+
+      case 'Search':
+        return MaterialPageRoute(
+          settings: settings,
+          builder: (context) {
+            return const SearchGoalsScreen();
           },
         );
 
