@@ -25,8 +25,6 @@ class _GoalsListWidgetState extends State<GoalsListWidget> {
       }
       final GoalModel goal = goals.removeAt(oldIndex);
       goals.insert(newIndex, goal);
-
-      // Update the order in repository
       goalsRepository.updateGoalsOrder(goals);
     });
   }

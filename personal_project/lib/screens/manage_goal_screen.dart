@@ -100,6 +100,7 @@ class ManageGoalScreen extends StatelessWidget {
                 controller: nameFieldController,
                 maxLength: 24,
                 hintText: 'My Goal',
+
               ),
               const SizedBox(height: 25),
               CustomTextFormFieldWidget(

@@ -4,6 +4,7 @@ import 'package:personal_project/api/firebase_api.dart';
 import 'package:personal_project/providers/app_provider.dart';
 import 'package:personal_project/providers/theme_provider.dart';
 import 'package:personal_project/route/route_manager.dart';
+import 'package:personal_project/screens/splash_screen.dart';
 import 'package:provider/provider.dart';
 
 import 'api/firebase_api.dart';
@@ -34,7 +35,7 @@ class HabitTrackerApp extends StatelessWidget {
       themeMode: themeProvider.themeMode,
       theme: ThemeData.light(),
       darkTheme: ThemeData.dark(),
-      initialRoute: 'Home',
+      initialRoute: 'Splash',
       onGenerateRoute: RouteManager.generateRoute,
     );
   }

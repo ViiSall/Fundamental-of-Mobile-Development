@@ -5,10 +5,19 @@ import 'package:personal_project/screens/manage_goal_screen.dart';
 import 'package:personal_project/screens/my_goals_screen.dart';
 import 'package:personal_project/screens/progress_screen.dart';
 import 'package:personal_project/screens/search_goals_screen.dart';
+import 'package:personal_project/screens/splash_screen.dart';
 
 class RouteManager {
   static Route generateRoute(RouteSettings settings) {
     switch (settings.name) {
+      case 'Splash':
+        return MaterialPageRoute(
+          settings: settings,
+          builder: (context) {
+            return const SplashScreen();
+          },
+        );
+
       case 'Home':
         return MaterialPageRoute(
           settings: settings,
