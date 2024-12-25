@@ -18,6 +18,19 @@ class _GoalsListWidgetState extends State<GoalsListWidget> {
   late GoalsRepository goalsRepository;
   late List<GoalModel> goals;
 
+  void _onReorder(int oldIndex, int newIndex) {
+    setState(() {
+      if (newIndex > oldIndex) {
+        newIndex -= 1;
+      }
+      final GoalModel goal = goals.removeAt(oldIndex);
+      goals.insert(newIndex, goal);
+
+      // Update the order in repository
+      goalsRepository.updateGoalsOrder(goals);
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     goalsRepository = Provider.of<GoalsRepository>(context);
@@ -32,17 +45,33 @@ class _GoalsListWidgetState extends State<GoalsListWidget> {
       return const EmptyGoalsMessageWidget();
     }
 
-    return ListView.builder(
-      padding: const EdgeInsets.all(28),
-      itemCount: goals.length,
-      itemBuilder: (BuildContext context, int index) {
-        return Padding(
-          padding: const EdgeInsets.only(bottom: 10),
-          child: GoalTileWidget(
-            goal: goals[index],
-            isSlidable: !widget.weekdayFilter,
-          ),
-        );
+    return widget.weekdayFilter
+        ? ListView.builder(
+        padding: const EdgeInsets.all(28),
+        itemCount: goals.length,
+        itemBuilder: (BuildContext context, int index) {
+          return Padding(
+            padding: const EdgeInsets.only(bottom: 10),
+            child: GoalTileWidget(
+              goal: goals[index],
+              isSlidable: !widget.weekdayFilter,
+            ),
+          );
+        },
+      )
+        : ReorderableListView.builder(
+        padding: const EdgeInsets.all(28),
+        onReorder: _onReorder,
+        itemCount: goals.length,
+        itemBuilder: (BuildContext context, int index) {
+          return Padding(
+            key: ValueKey(goals[index].id),
+            padding: const EdgeInsets.only(bottom: 10),
+            child: GoalTileWidget(
+              goal: goals[index],
+              isSlidable: !widget.weekdayFilter,
+            ),
+          );
       },
     );
   }

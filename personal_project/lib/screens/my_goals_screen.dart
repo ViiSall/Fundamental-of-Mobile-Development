@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:personal_project/components/goal_list_widget.dart';
 import 'package:personal_project/providers/theme_provider.dart';
-import 'package:personal_project/screens/search_goals_screen.dart';
 import 'package:personal_project/theme/color_theme.dart';
 import 'package:provider/provider.dart';
 

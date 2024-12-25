@@ -8,6 +8,7 @@ class GoalModel implements DatabaseElement {
   final String description;
   final List<bool> days;
   final int iconId;
+  int displayOrder;
 
   GoalModel({
     this.id = -1,
@@ -15,6 +16,7 @@ class GoalModel implements DatabaseElement {
     required this.description,
     required this.days,
     required this.iconId,
+    this.displayOrder = 0,
   });
 
   GoalModel.fromJson(Map<String, dynamic> json)
@@ -30,7 +32,8 @@ class GoalModel implements DatabaseElement {
           json['is_on_saturday'] == 1,
           json['is_on_sunday'] == 1,
         ],
-        iconId = json['icon_id'];
+        iconId = json['icon_id'],
+        displayOrder = json['display_order'] ?? 0;
 
   @override
   Map<String, dynamic> toJson() {
@@ -38,14 +41,15 @@ class GoalModel implements DatabaseElement {
       'id': id,
       'name': name,
       'description': description,
-      'is_on_monday': days[0],
-      'is_on_tuesday': days[1],
-      'is_on_wednesday': days[2],
-      'is_on_thursday': days[3],
-      'is_on_friday': days[4],
-      'is_on_saturday': days[5],
-      'is_on_sunday': days[6],
+      'is_on_monday': days[0] ? 1 : 0,
+      'is_on_tuesday': days[1] ? 1 : 0,
+      'is_on_wednesday': days[2] ? 1 : 0,
+      'is_on_thursday': days[3] ? 1 : 0,
+      'is_on_friday': days[4] ? 1 : 0,
+      'is_on_saturday': days[5] ? 1 : 0,
+      'is_on_sunday': days[6] ? 1 : 0,
       'icon_id': iconId,
+      'display_order': displayOrder,
     };
 
     if (id == -1) {

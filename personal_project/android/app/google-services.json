@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "816505266554",
+    "project_id": "push-notification-de710",
+    "storage_bucket": "push-notification-de710.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:816505266554:android:4b2fb02f77ba437cfdf6c3",
+        "android_client_info": {
+          "package_name": "com.example.personal_project"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyC75KxAhord8Xi4cLUfmc3fFEvP_Z1dL0A"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

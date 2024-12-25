@@ -3,7 +3,6 @@ import 'package:personal_project/models/day_model.dart';
 import 'package:personal_project/models/goal_model.dart';
 import 'package:sqflite/sqflite.dart';
 
-
 class DatabaseManager {
   DatabaseManager._privateConstructor();
 
@@ -22,8 +21,9 @@ class DatabaseManager {
 
     return await openDatabase(
       databasePath,
-      version: 2,
+      version: 3, // Increment version number
       onCreate: _onCreate,
+      onUpgrade: _onUpgrade,
     );
   }
 
@@ -40,7 +40,8 @@ class DatabaseManager {
         is_on_friday BOOLEAN,
         is_on_saturday BOOLEAN,
         is_on_sunday BOOLEAN,
-        icon_id INTEGER
+        icon_id INTEGER,
+        display_order INTEGER DEFAULT 0
       );
     ''');
 
@@ -51,6 +52,24 @@ class DatabaseManager {
         date TEXT
       );
     ''');
+  }
+
+  Future<void> _onUpgrade(Database db, int oldVersion, int newVersion) async {
+    if (oldVersion < 3) {
+      // Add display_order column to existing table
+      await db.execute('ALTER TABLE tb_goals ADD COLUMN display_order INTEGER DEFAULT 0');
+
+      // Initialize order based on existing IDs
+      var goals = await db.query('tb_goals', orderBy: 'id ASC');
+      for (var i = 0; i < goals.length; i++) {
+        await db.update(
+          'tb_goals',
+          {'display_order': i},
+          where: 'id = ?',
+          whereArgs: [goals[i]['id']],
+        );
+      }
+    }
   }
 
   Future<List<Map<String, dynamic>>> _fetchDatabaseElement(String table) async {
@@ -74,7 +93,8 @@ class DatabaseManager {
     database.update(
       table,
       databaseElement.toJson(),
-      where: 'id == ${databaseElement.id}',
+      where: 'id = ?',
+      whereArgs: [databaseElement.id],
       conflictAlgorithm: ConflictAlgorithm.replace,
     );
   }
@@ -84,13 +104,18 @@ class DatabaseManager {
 
     database.delete(
       table,
-      where: 'id == ${databaseElement.id}',
+      where: 'id = ?',
+      whereArgs: [databaseElement.id],
     );
   }
 
   // -- Goals Methods --
   Future<List<GoalModel>> fetchGoals() async {
-    List<Map<String, dynamic>> maps = await _fetchDatabaseElement('tb_goals');
+    var database = await instance.database;
+    List<Map<String, dynamic>> maps = await database.query(
+        'tb_goals',
+        orderBy: 'display_order ASC'
+    );
 
     if (maps.isNotEmpty) {
       return maps.map((map) => GoalModel.fromJson(map)).toList();
@@ -99,6 +124,14 @@ class DatabaseManager {
   }
 
   Future<int?> addGoal(var goal) async {
+    // Get the highest order value
+    var database = await instance.database;
+    var result = await database.rawQuery('SELECT MAX(display_order) as max_order FROM tb_goals');
+    var maxOrder = result.first['max_order'] as int? ?? -1;
+
+    // Set the new goal's order to be last
+    goal.displayOrder = maxOrder + 1;
+
     return await _addDatabaseElement('tb_goals', goal);
   }
 
@@ -108,6 +141,16 @@ class DatabaseManager {
 
   void deleteGoal(var goal) async {
     _deleteDatabaseElement('tb_goals', goal);
+  }
+
+  Future<void> updateGoalOrder(int goalId, int newOrder) async {
+    final db = await database;
+    await db.update(
+      'tb_goals',
+      {'display_order': newOrder},
+      where: 'id = ?',
+      whereArgs: [goalId],
+    );
   }
 
   // -- Days Methods --

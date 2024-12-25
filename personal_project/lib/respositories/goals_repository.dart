@@ -4,14 +4,19 @@ import 'package:personal_project/models/goal_model.dart';
 
 class GoalsRepository extends ChangeNotifier {
   List<GoalModel> _goals = [];
-  bool isInitalized = false;
+  bool isInitialized = false;
 
   void _initGoals() async {
     _goals = await DatabaseManager.instance.fetchGoals();
+
+    // Sort goals by displayOrder
+    _goals.sort((a, b) => a.displayOrder.compareTo(b.displayOrder));
+    isInitialized = true;
+
     notifyListeners();
   }
 
-  void saveGoal(var goal) {
+  void saveGoal(GoalModel goal) {
     if (goal.id != -1) {
       _updateGoal(goal);
     } else {
@@ -19,45 +24,61 @@ class GoalsRepository extends ChangeNotifier {
     }
   }
 
-  void _addGoal(var goal) async {
-    goal.id = await DatabaseManager.instance.addGoal(goal);
+  void _addGoal(GoalModel goal) async {
+    // Set the displayOrder to be the last position
+    goal.displayOrder = _goals.length;
+    goal.id = (await DatabaseManager.instance.addGoal(goal))!;
     _goals.add(goal);
 
     notifyListeners();
   }
 
-  void _updateGoal(var goal) {
+  void _updateGoal(GoalModel goal) {
     DatabaseManager.instance.updateGoal(goal);
 
     int goalIndex = _goals.indexWhere((element) => element.id == goal.id);
-    _goals[goalIndex] = goal;
+    if (goalIndex != -1) {
+      _goals[goalIndex] = goal;
+    }
 
     notifyListeners();
   }
 
-  List<GoalModel> getGoals() {
-    if (!isInitalized) {
-      _initGoals();
-      isInitalized = true;
+  void updateGoalsOrder(List<GoalModel> reorderedGoals) async {
+    // Update the displayOrder field for each goal
+    for (int i = 0; i < reorderedGoals.length; i++) {
+      reorderedGoals[i].displayOrder = i;
+      await DatabaseManager.instance.updateGoalOrder(reorderedGoals[i].id, i);
     }
 
-    return _goals;
+    // Update the local list
+    _goals = List.from(reorderedGoals);
+    notifyListeners();
+  }
+
+  List<GoalModel> getGoals() {
+    if (!isInitialized) {
+      _initGoals();
+    }
+
+    // Return sorted goals
+    return List.from(_goals);
   }
 
   List<GoalModel> getGoalsByWeekday(int weekday) {
-    List<GoalModel> filteredGoals = [];
-
-    for (var goal in getGoals()) {
-      if (goal.days[weekday]) {
-        filteredGoals.add(goal);
-      }
-    }
-    return filteredGoals;
+    return getGoals().where((goal) => goal.days[weekday]).toList();
   }
 
-  void deleteGoal(var goal) {
+  void deleteGoal(GoalModel goal) {
     DatabaseManager.instance.deleteGoal(goal);
-    _goals.remove(goal);
+    _goals.removeWhere((g) => g.id == goal.id);
+
+    // Update displayOrder of remaining goals
+    for (int i = 0; i < _goals.length; i++) {
+      _goals[i].displayOrder = i;
+      DatabaseManager.instance.updateGoalOrder(_goals[i].id, i);
+    }
+
     notifyListeners();
   }
 }
