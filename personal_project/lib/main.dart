@@ -4,10 +4,7 @@ import 'package:personal_project/api/firebase_api.dart';
 import 'package:personal_project/providers/app_provider.dart';
 import 'package:personal_project/providers/theme_provider.dart';
 import 'package:personal_project/route/route_manager.dart';
-import 'package:personal_project/screens/splash_screen.dart';
 import 'package:provider/provider.dart';
-
-import 'api/firebase_api.dart';
 
 final navigatorKey = GlobalKey<NavigatorState>();
 
@@ -27,7 +24,7 @@ class HabitTrackerApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final themeProvider = Provider.of<  ThemeProvider>(context);
+    final themeProvider = Provider.of<ThemeProvider>(context);
 
     return MaterialApp(
       debugShowCheckedModeBanner: false,

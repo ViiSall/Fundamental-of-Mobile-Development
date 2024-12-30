@@ -101,12 +101,12 @@ class ProgressScreen extends StatelessWidget {
                     children: [
                       Text(
                         'Streak',
-                        style: GoogleFonts.lato(fontSize: 32),
+                        style: GoogleFonts.lato(fontSize: 28),
                       ),
                       Text(
                         '$streak days',
                         style: GoogleFonts.lato(
-                          fontSize: 32,
+                          fontSize: 28,
                           color: ColorTheme.primary,
                         ),
                       ),
@@ -119,11 +119,11 @@ class ProgressScreen extends StatelessWidget {
                     children: [
                       Text(
                         'Best',
-                        style: GoogleFonts.lato(fontSize: 32),
+                        style: GoogleFonts.lato(fontSize: 28),
                       ),
                       Text(
                         '$bestStreak days',
-                        style: GoogleFonts.lato(fontSize: 32),
+                        style: GoogleFonts.lato(fontSize: 28),
                       ),
                     ],
                   ),

@@ -56,10 +56,7 @@ class DatabaseManager {
 
   Future<void> _onUpgrade(Database db, int oldVersion, int newVersion) async {
     if (oldVersion < 3) {
-      // Add display_order column to existing table
       await db.execute('ALTER TABLE tb_goals ADD COLUMN display_order INTEGER DEFAULT 0');
-
-      // Initialize order based on existing IDs
       var goals = await db.query('tb_goals', orderBy: 'id ASC');
       for (var i = 0; i < goals.length; i++) {
         await db.update(

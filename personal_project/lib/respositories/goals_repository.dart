@@ -9,7 +9,6 @@ class GoalsRepository extends ChangeNotifier {
   void _initGoals() async {
     _goals = await DatabaseManager.instance.fetchGoals();
 
-    // Sort goals by displayOrder
     _goals.sort((a, b) => a.displayOrder.compareTo(b.displayOrder));
     isInitialized = true;
 
@@ -25,7 +24,6 @@ class GoalsRepository extends ChangeNotifier {
   }
 
   void _addGoal(GoalModel goal) async {
-    // Set the displayOrder to be the last position
     goal.displayOrder = _goals.length;
     goal.id = (await DatabaseManager.instance.addGoal(goal))!;
     _goals.add(goal);
@@ -45,13 +43,11 @@ class GoalsRepository extends ChangeNotifier {
   }
 
   void updateGoalsOrder(List<GoalModel> reorderedGoals) async {
-    // Update the displayOrder field for each goal
     for (int i = 0; i < reorderedGoals.length; i++) {
       reorderedGoals[i].displayOrder = i;
       await DatabaseManager.instance.updateGoalOrder(reorderedGoals[i].id, i);
     }
 
-    // Update the local list
     _goals = List.from(reorderedGoals);
     notifyListeners();
   }
@@ -60,8 +56,6 @@ class GoalsRepository extends ChangeNotifier {
     if (!isInitialized) {
       _initGoals();
     }
-
-    // Return sorted goals
     return List.from(_goals);
   }
 
@@ -73,7 +67,6 @@ class GoalsRepository extends ChangeNotifier {
     DatabaseManager.instance.deleteGoal(goal);
     _goals.removeWhere((g) => g.id == goal.id);
 
-    // Update displayOrder of remaining goals
     for (int i = 0; i < _goals.length; i++) {
       _goals[i].displayOrder = i;
       DatabaseManager.instance.updateGoalOrder(_goals[i].id, i);

@@ -3,7 +3,6 @@ import 'database_element.dart';
 class GoalModel implements DatabaseElement {
   @override
   int id;
-
   final String name;
   final String description;
   final List<bool> days;

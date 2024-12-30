@@ -3,7 +3,6 @@ import 'database_element.dart';
 class DayModel implements DatabaseElement {
   @override
   int id;
-
   final List<int> completedGoalsId;
   final DateTime date;
 
