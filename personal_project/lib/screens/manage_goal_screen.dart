@@ -57,67 +57,71 @@ class ManageGoalScreen extends StatelessWidget {
       weekdayButtonsWidget.setSelectedDays(goal!.days);
     }
 
-    return Scaffold(
-      appBar: AppBar(
-        title: Text(
-          goal == null ? 'New Goal' : 'Edit Goal',
-          style: GoogleFonts.lato(fontSize: 28),
-        ),
-        centerTitle: true,
-        leadingWidth: 80,
-        leading: TextButton(
-          onPressed: () => Navigator.pop(context),
-          child: Text(
-            'Cancel',
-            style: GoogleFonts.lato(
-              fontSize: 18,
-              color: ColorTheme.secondary,
-            ),
+    return Hero(
+      tag: 'add-goal',
+      child: Scaffold(
+        appBar: AppBar(
+          title: Text(
+            goal == null ? 'New Goal' : 'Edit Goal',
+            style: GoogleFonts.lato(fontSize: 28),
           ),
-        ),
-        actions: [
-          TextButton(
-            onPressed: () => _saveGoal(context, goalsRepository),
+          centerTitle: true,
+          leadingWidth: 80,
+          leading: TextButton(
+            onPressed: () => Navigator.pop(context),
             child: Text(
-              'Done',
+              'Cancel',
               style: GoogleFonts.lato(
                 fontSize: 18,
                 color: ColorTheme.secondary,
               ),
             ),
           ),
-        ],
-      ),
-      body: GestureDetector(
-        child: SingleChildScrollView(
-          padding: const EdgeInsets.all(20),
-          child: Column(
-            children: [
-              const SizedBox(height: 50),
-              iconsCarouselWidget,
-              const SizedBox(height: 60),
-              CustomTextFormFieldWidget(
-                controller: nameFieldController,
-                maxLength: 24,
-                hintText: 'My Goal',
+          actions: [
+            TextButton(
+              onPressed: () => _saveGoal(context, goalsRepository),
+              child: Text(
+                'Done',
+                style: GoogleFonts.lato(
+                  fontSize: 18,
+                  color: ColorTheme.secondary,
+                ),
               ),
-              const SizedBox(height: 25),
-              CustomTextFormFieldWidget(
-                controller: descriptionFieldController,
-                maxLength: 165,
-                maxLines: 5,
-                hintText: 'A short description of my goal',
-              ),
-              const SizedBox(height: 100),
-              weekdayButtonsWidget,
-            ],
-          ),
+            ),
+          ],
         ),
-        onTap: () {
-          FocusManager.instance.primaryFocus?.unfocus();
-        },
+        body: GestureDetector(
+          child: SingleChildScrollView(
+            padding: const EdgeInsets.all(20),
+            keyboardDismissBehavior: ScrollViewKeyboardDismissBehavior.onDrag,
+            child: Column(
+              children: [
+                const SizedBox(height: 20),
+                iconsCarouselWidget,
+                const SizedBox(height: 30),
+                CustomTextFormFieldWidget(
+                  controller: nameFieldController,
+                  maxLength: 24,
+                  hintText: 'My Goal',
+                ),
+                const SizedBox(height: 15),
+                CustomTextFormFieldWidget(
+                  controller: descriptionFieldController,
+                  maxLength: 165,
+                  maxLines: 5,
+                  hintText: 'A short description of my goal',
+                ),
+                const SizedBox(height: 30),
+                weekdayButtonsWidget,
+              ],
+            ),
+          ),
+          onTap: () {
+            FocusManager.instance.primaryFocus?.unfocus();
+          },
+        ),
+        backgroundColor: themeProvider.backgroundColor,
       ),
-      backgroundColor: themeProvider.backgroundColor,
     );
   }
 }

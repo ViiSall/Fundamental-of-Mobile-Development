@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:personal_project/components/bouncing_floating_action_button.dart';
 import 'package:personal_project/components/goal_list_widget.dart';
 import 'package:personal_project/providers/theme_provider.dart';
 import 'package:personal_project/theme/color_theme.dart';
@@ -14,17 +15,25 @@ class HomeScreen extends StatelessWidget {
 
     return Scaffold(
       appBar: AppBar(
+        elevation: 4,
+        backgroundColor: themeProvider.isDarkMode
+            ? ColorTheme.darkBackground
+            : ColorTheme.secondary,
         title: Text(
           'Today\'s Goals',
-          style: GoogleFonts.lato(fontSize: 28),
+          style: GoogleFonts.lato(
+            fontSize: 24,
+            color: themeProvider.isDarkMode
+                ? ColorTheme.secondary
+                : ColorTheme.darkBackground,
+          ),
         ),
         centerTitle: true,
         leading: IconButton(
-          icon: const Icon(
-            Icons.accessibility_new,
-            size: 32,
-            color: ColorTheme.secondary,
-          ),
+          icon: const Icon(Icons.accessibility_new, size: 28),
+          color: themeProvider.isDarkMode
+              ? ColorTheme.secondary
+              : ColorTheme.darkBackground,
           onPressed: () => Navigator.pushNamed(context, 'MyGoals'),
         ),
         actions: [
@@ -32,29 +41,35 @@ class HomeScreen extends StatelessWidget {
             children: [
               Icon(
                 themeProvider.isDarkMode ? Icons.dark_mode : Icons.light_mode,
-                color: themeProvider.isDarkMode ? ColorTheme.secondary : ColorTheme.secondary,
+                color: themeProvider.isDarkMode
+                    ? ColorTheme.secondary
+                    : ColorTheme.darkBackground,
               ),
               Switch(
                 value: themeProvider.isDarkMode,
-                onChanged: (value) {
-                  themeProvider.toggleTheme(value);
-                },
+                onChanged: themeProvider.toggleTheme,
+                activeColor: ColorTheme.secondary,
+                inactiveThumbColor: ColorTheme.secondary,
+                inactiveTrackColor: ColorTheme.faded,
               ),
             ],
           ),
         ],
       ),
-      body: const GoalsListWidget(weekdayFilter: true),
-      floatingActionButton: SizedBox(
-        height: 60,
-        width: 60,
-        child: FloatingActionButton(
-          onPressed: () => Navigator.pushNamed(context, 'ManageGoal'),
-          backgroundColor: ColorTheme.secondary,
-          child: const Icon(Icons.add, size: 40),
-        ),
+      body: AnimatedContainer(
+        duration: const Duration(milliseconds: 500),
+        curve: Curves.easeInOut,
+        color: themeProvider.isDarkMode
+            ? ColorTheme.darkBackground
+            : ColorTheme.lightBackground,
+        child: const GoalsListWidget(weekdayFilter: true),
       ),
-      backgroundColor: themeProvider.backgroundColor,
+      floatingActionButton: BouncingFloatingActionButton(
+        onPressed: () => Navigator.pushNamed(context, 'ManageGoal'),
+        tooltip: 'Add a new goal',
+        icon: Icons.add,
+        backgroundColor: ColorTheme.secondary,
+      ),
     );
   }
 }
