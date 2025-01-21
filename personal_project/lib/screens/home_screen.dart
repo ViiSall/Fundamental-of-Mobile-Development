@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:personal_project/components/animated_shapes_background.dart';
 import 'package:personal_project/components/bouncing_floating_action_button.dart';
 import 'package:personal_project/components/goal_list_widget.dart';
 import 'package:personal_project/providers/theme_provider.dart';
@@ -56,13 +57,11 @@ class HomeScreen extends StatelessWidget {
           ),
         ],
       ),
-      body: AnimatedContainer(
-        duration: const Duration(milliseconds: 500),
-        curve: Curves.easeInOut,
-        color: themeProvider.isDarkMode
-            ? ColorTheme.darkBackground
-            : ColorTheme.lightBackground,
-        child: const GoalsListWidget(weekdayFilter: true),
+      body: const Stack(
+        children: [
+          GoalsListWidget(weekdayFilter: true),
+          AnimatedShapesBackground(),
+        ],
       ),
       floatingActionButton: BouncingFloatingActionButton(
         onPressed: () => Navigator.pushNamed(context, 'ManageGoal'),

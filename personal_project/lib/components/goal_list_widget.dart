@@ -45,31 +45,31 @@ class _GoalsListWidgetState extends State<GoalsListWidget> {
 
     return widget.weekdayFilter
         ? ListView.builder(
-        padding: const EdgeInsets.all(28),
-        itemCount: goals.length,
-        itemBuilder: (BuildContext context, int index) {
-          return Padding(
-            padding: const EdgeInsets.only(bottom: 10),
-            child: GoalTileWidget(
-              goal: goals[index],
-              isSlidable: !widget.weekdayFilter,
-            ),
-          );
-        },
-      )
+      padding: const EdgeInsets.all(28),
+      itemCount: goals.length,
+      itemBuilder: (BuildContext context, int index) {
+        return Padding(
+          padding: const EdgeInsets.only(bottom: 10),
+          child: GoalTileWidget(
+            goal: goals[index],
+            isSlidable: !widget.weekdayFilter,
+          ),
+        );
+      },
+    )
         : ReorderableListView.builder(
-        padding: const EdgeInsets.all(28),
-        onReorder: _onReorder,
-        itemCount: goals.length,
-        itemBuilder: (BuildContext context, int index) {
-          return Padding(
-            key: ValueKey(goals[index].id),
-            padding: const EdgeInsets.only(bottom: 10),
-            child: GoalTileWidget(
-              goal: goals[index],
-              isSlidable: !widget.weekdayFilter,
-            ),
-          );
+      padding: const EdgeInsets.all(28),
+      onReorder: _onReorder,
+      itemCount: goals.length,
+      itemBuilder: (BuildContext context, int index) {
+        return Padding(
+          key: ValueKey(goals[index].id),
+          padding: const EdgeInsets.only(bottom: 10),
+          child: GoalTileWidget(
+            goal: goals[index],
+            isSlidable: !widget.weekdayFilter,
+          ),
+        );
       },
     );
   }

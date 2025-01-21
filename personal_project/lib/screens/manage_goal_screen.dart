@@ -5,10 +5,10 @@ import 'package:personal_project/components/icons_carousel_widget.dart';
 import 'package:personal_project/components/snackbar_message.dart';
 import 'package:personal_project/components/weekday_buttons_widget.dart';
 import 'package:personal_project/models/goal_model.dart';
-import 'package:personal_project/providers/theme_provider.dart';
 import 'package:personal_project/respositories/goals_repository.dart';
 import 'package:provider/provider.dart';
 
+import '../providers/theme_provider.dart';
 import '../theme/color_theme.dart';
 
 class ManageGoalScreen extends StatelessWidget {
@@ -44,8 +44,8 @@ class ManageGoalScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    GoalsRepository goalsRepository = Provider.of<GoalsRepository>(context);
     final themeProvider = Provider.of<ThemeProvider>(context);
-    final goalsRepository = Provider.of<GoalsRepository>(context);
 
     if (goal != null) {
       nameFieldController.text = goal!.name;
@@ -57,71 +57,67 @@ class ManageGoalScreen extends StatelessWidget {
       weekdayButtonsWidget.setSelectedDays(goal!.days);
     }
 
-    return Hero(
-      tag: 'add-goal',
-      child: Scaffold(
-        appBar: AppBar(
-          title: Text(
-            goal == null ? 'New Goal' : 'Edit Goal',
-            style: GoogleFonts.lato(fontSize: 28),
+    return Scaffold(
+      appBar: AppBar(
+        title: Text(
+          goal == null ? 'New Goal' : 'Edit Goal',
+          style: const TextStyle(fontSize: 32),
+        ),
+        centerTitle: true,
+        leadingWidth: 80,
+        leading: TextButton(
+          onPressed: () => Navigator.pop(context),
+          child: const Text(
+            'Cancel',
+            style: TextStyle(
+              fontSize: 18,
+              color: ColorTheme.secondary,
+            ),
           ),
-          centerTitle: true,
-          leadingWidth: 80,
-          leading: TextButton(
-            onPressed: () => Navigator.pop(context),
-            child: Text(
-              'Cancel',
-              style: GoogleFonts.lato(
+        ),
+        actions: [
+          TextButton(
+            onPressed: () => _saveGoal(context, goalsRepository),
+            child: const Text(
+              'Done',
+              style: TextStyle(
                 fontSize: 18,
                 color: ColorTheme.secondary,
               ),
             ),
           ),
-          actions: [
-            TextButton(
-              onPressed: () => _saveGoal(context, goalsRepository),
-              child: Text(
-                'Done',
-                style: GoogleFonts.lato(
-                  fontSize: 18,
-                  color: ColorTheme.secondary,
-                ),
-              ),
-            ),
-          ],
-        ),
-        body: GestureDetector(
-          child: SingleChildScrollView(
-            padding: const EdgeInsets.all(20),
-            keyboardDismissBehavior: ScrollViewKeyboardDismissBehavior.onDrag,
-            child: Column(
-              children: [
-                const SizedBox(height: 20),
-                iconsCarouselWidget,
-                const SizedBox(height: 30),
-                CustomTextFormFieldWidget(
-                  controller: nameFieldController,
-                  maxLength: 24,
-                  hintText: 'My Goal',
-                ),
-                const SizedBox(height: 15),
-                CustomTextFormFieldWidget(
-                  controller: descriptionFieldController,
-                  maxLength: 165,
-                  maxLines: 5,
-                  hintText: 'A short description of my goal',
-                ),
-                const SizedBox(height: 30),
-                weekdayButtonsWidget,
-              ],
-            ),
-          ),
-          onTap: () {
-            FocusManager.instance.primaryFocus?.unfocus();
-          },
-        ),
-        backgroundColor: themeProvider.backgroundColor,
+        ],
       ),
+      body: GestureDetector(
+        child: SingleChildScrollView(
+          padding: const EdgeInsets.all(20),
+          child: Column(
+            children: [
+              const SizedBox(height: 50),
+              iconsCarouselWidget,
+              const SizedBox(height: 60),
+              CustomTextFormFieldWidget(
+                controller: nameFieldController,
+                maxLength: 24,
+                hintText: 'My Goal',
+              ),
+              const SizedBox(height: 25),
+              CustomTextFormFieldWidget(
+                controller: descriptionFieldController,
+                maxLength: 165,
+                maxLines: 5,
+                hintText: 'A short description of my goal',
+              ),
+              const SizedBox(height: 100),
+              weekdayButtonsWidget,
+            ],
+          ),
+        ),
+        onTap: () {
+          FocusManager.instance.primaryFocus?.unfocus();
+        },
+      ),
+      backgroundColor: themeProvider.backgroundColor
     );
   }
 }

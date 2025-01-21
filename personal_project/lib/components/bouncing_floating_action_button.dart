@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 class BouncingFloatingActionButton extends StatefulWidget {
-  final VoidCallback onPressed;
+  final VoidCallback? onPressed;
   final String tooltip;
   final IconData icon;
   final Color backgroundColor;
@@ -51,7 +51,7 @@ class _BouncingFloatingActionButtonState
       onTapDown: (_) => _controller.forward(),
       onTapUp: (_) {
         _controller.reverse();
-        widget.onPressed();
+        widget.onPressed?.call();
       },
       onTapCancel: () => _controller.reverse(),
       child: ScaleTransition(
@@ -60,7 +60,7 @@ class _BouncingFloatingActionButtonState
           onPressed: widget.onPressed,
           backgroundColor: widget.backgroundColor,
           tooltip: widget.tooltip,
-          child: Icon(widget.icon, size: 32),
+          child: Icon(widget.icon, size: 42),
         ),
       ),
     );
